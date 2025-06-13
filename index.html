@@ -370,7 +370,12 @@
           dataToShow = htmlData;
           break;
         case 'css':
-          dataToShow = cssData;
+          // Xử lý đặc biệt cho CSS vì nó có cấu trúc lồng nhau
+          if (cssData.thuoc_tinh_css) {
+            dataToShow = { ...cssData.thuoc_tinh_css, ...cssData.gia_tri_css };
+          } else {
+            dataToShow = cssData;
+          }
           break;
         case 'js':
           dataToShow = jsData;
@@ -380,6 +385,11 @@
       for (const [vietKey, engValue] of Object.entries(dataToShow)) {
         if (searchTerm && !vietKey.toLowerCase().includes(searchTerm.toLowerCase()) && 
             !String(engValue).toLowerCase().includes(searchTerm.toLowerCase())) {
+          continue;
+        }
+        
+        // Bỏ qua nếu giá trị là một đối tượng
+        if (typeof engValue === 'object' && engValue !== null) {
           continue;
         }
         

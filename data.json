@@ -128,6 +128,18 @@
     "kich_thuoc_doc_max": "maxHeight",
     "kich_thuoc_ngang_min": "minWidth",
     "kich_thuoc_doc_min": "minHeight",
-    "kich_thuoc_ngang_nghiem_thu": "offsetWidth"
-
+    "kich_thuoc_ngang_nghiem_thu": "offsetWidth",
+    "viet_tat": "abbr",
+    "trich_dan": "cite",
+    "trich_dan_ngan": "q",
+    "nguoc_chieu_van_ban": "bdi",
+    "huong_van_ban": "bdo",
+    "gach_bo": "s",
+    "gach_chan": "u",
+    "xoa_bo": "del",
+    "chen_vao": "ins",
+    "dinh_nghia": "dfn",
+    "ban_phim": "kbd",
+    "mau": "samp",
+    "bien": "var"
 }
