@@ -35,7 +35,8 @@
       "thu_tu": "z-index",
       "can_giua_doc": "justify-content",
       "can_giua_ngang": "align-items",
-      "than": "body"
+      "than": "body",
+      "chuyen_dong": " transition"
     },
     "gia_tri_css": {
       "chi_tay": "pointer",
@@ -45,6 +46,15 @@
       "xam_nhat": "#f0f0f0",
       "trang": "#ffffff",
       "den": "#000000",
-      "do": "red"
+      "do": "red",
+      "tat_ca": "all",
+      "de": "ease",
+      "mau_den": "#000000",
+      "mau_do": "#ff0000",
+      "mau_xanh": "#00ff00",
+      "mau_duong": "#0000ff",
+      "mau_vang": "#ffff00",
+      "mau_hong": "#ff00ff"
+      
     }
   }

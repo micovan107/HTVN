@@ -538,6 +538,11 @@
             input.selectionEnd = selectionStart;
           }
         }
+        
+        // Tự động căn chỉnh lề mã sau khi thêm thẻ đóng
+        setTimeout(() => {
+          autoIndentCurrentLine(input);
+        }, 0);
       }
       
       // Tự động thụt lùi khi nhấn Enter
@@ -571,7 +576,78 @@
           input.selectionEnd = cursorPos + indentation.length;
         }, 0);
       }
+      
+      // Tự động căn chỉnh lề khi nhập các ký tự khác
+      if (e.inputType === 'insertText' && e.data && e.data.match(/[<\/;{}]/) && e.data !== '>') {
+        setTimeout(() => {
+          autoIndentCurrentLine(input);
+        }, 0);
+      }
     });
+    
+    // Hàm tự động căn chỉnh lề cho dòng hiện tại
+    function autoIndentCurrentLine(input) {
+      const cursorPos = input.selectionStart;
+      const value = input.value;
+      
+      // Tìm vị trí đầu dòng và cuối dòng
+      const lineStartPos = value.lastIndexOf('\n', cursorPos - 1) + 1;
+      const lineEndPos = value.indexOf('\n', cursorPos);
+      const endPos = lineEndPos !== -1 ? lineEndPos : value.length;
+      
+      // Lấy nội dung dòng hiện tại
+      const currentLine = value.substring(lineStartPos, endPos);
+      const trimmedLine = currentLine.trim();
+      
+      // Tính toán mức thụt lùi dựa trên cấu trúc HTML
+      let indentLevel = 0;
+      const textBeforeLine = value.substring(0, lineStartPos);
+      const lines = textBeforeLine.split('\n');
+      
+      // Tính toán mức thụt lùi dựa trên các thẻ mở và đóng trước dòng hiện tại
+      for (const line of lines) {
+        const trimmedPrevLine = line.trim();
+        
+        // Tăng mức thụt lùi cho thẻ mở
+        if (trimmedPrevLine.match(/<[^/][^>]*>(?!.*<\/[^>]*>)/) && 
+            !trimmedPrevLine.match(/\/>$/) && 
+            !trimmedPrevLine.match(/<(br|hr|img|input|meta|link|source)\b/i)) {
+          indentLevel++;
+        }
+        
+        // Giảm mức thụt lùi cho thẻ đóng
+        if (trimmedPrevLine.match(/^<\/\w+>/) || 
+            trimmedPrevLine.match(/<\/\w+>$/) && 
+            !trimmedPrevLine.match(/^<\w+[^>]*>.*<\/\w+>$/)) {
+          indentLevel = Math.max(0, indentLevel - 1);
+        }
+      }
+      
+      // Giảm mức thụt lùi nếu dòng hiện tại là thẻ đóng
+      if (trimmedLine.match(/^<\/\w+>/)) {
+        indentLevel = Math.max(0, indentLevel - 1);
+      }
+      
+      // Tạo chuỗi thụt lùi
+      const indentSize = 2;
+      const indentation = ' '.repeat(indentLevel * indentSize);
+      
+      // Áp dụng thụt lùi cho dòng hiện tại
+      const newLine = indentation + trimmedLine;
+      const newValue = value.substring(0, lineStartPos) + newLine + value.substring(endPos);
+      
+      // Tính toán vị trí con trỏ mới
+      const cursorOffset = cursorPos - lineStartPos;
+      const leadingSpaces = currentLine.match(/^\s*/)[0].length;
+      const newCursorPos = lineStartPos + indentation.length + (cursorOffset - leadingSpaces);
+      
+      // Chỉ cập nhật nếu có sự thay đổi
+      if (newLine !== currentLine) {
+        input.value = newValue;
+        input.selectionStart = newCursorPos;
+        input.selectionEnd = newCursorPos;
+      }
+    }
     
     // Thêm phím tắt Ctrl+Shift+F để định dạng toàn bộ code
     document.getElementById('input').addEventListener('keydown', function(e) {
