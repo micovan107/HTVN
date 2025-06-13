@@ -338,14 +338,31 @@
       }
       
       // Dịch các thuộc tính CSS
-      for (const [vietKey, engValue] of Object.entries(cssData)) {
-        const styleRegex = new RegExp(`${vietKey}\\s*:`, 'gi');
-        translatedHTML = translatedHTML.replace(styleRegex, `${engValue}:`);
+      if (cssData.thuoc_tinh_css) {
+        // Dịch các thuộc tính CSS
+        for (const [vietKey, engValue] of Object.entries(cssData.thuoc_tinh_css)) {
+          const styleRegex = new RegExp(`${vietKey}\\s*:`, 'gi');
+          translatedHTML = translatedHTML.replace(styleRegex, `${engValue}:`);
+        }
         
         // Dịch các giá trị CSS
-        if (typeof engValue === 'string' && !engValue.includes('-')) {
-          const valueRegex = new RegExp(`:\\s*${vietKey}\\b`, 'gi');
-          translatedHTML = translatedHTML.replace(valueRegex, `: ${engValue}`);
+        for (const [vietKey, engValue] of Object.entries(cssData.gia_tri_css)) {
+          if (typeof engValue === 'string' && !engValue.includes('-')) {
+            const valueRegex = new RegExp(`:\\s*${vietKey}\\b`, 'gi');
+            translatedHTML = translatedHTML.replace(valueRegex, `: ${engValue}`);
+          }
+        }
+      } else {
+        // Xử lý trường hợp cấu trúc cũ (nếu có)
+        for (const [vietKey, engValue] of Object.entries(cssData)) {
+          const styleRegex = new RegExp(`${vietKey}\\s*:`, 'gi');
+          translatedHTML = translatedHTML.replace(styleRegex, `${engValue}:`);
+          
+          // Dịch các giá trị CSS
+          if (typeof engValue === 'string' && !engValue.includes('-')) {
+            const valueRegex = new RegExp(`:\\s*${vietKey}\\b`, 'gi');
+            translatedHTML = translatedHTML.replace(valueRegex, `: ${engValue}`);
+          }
         }
       }
       
@@ -417,8 +434,22 @@
       // Hiển thị mã HTML đã dịch và định dạng
       document.getElementById('output').textContent = formattedHTML;
       
-      // Hiển thị kết quả
-      document.getElementById('rendered').innerHTML = translatedHTML;
+      // Hiển thị kết quả trong iframe để cô lập CSS
+      const renderedFrame = document.getElementById('rendered');
+      renderedFrame.innerHTML = '';
+      
+      // Tạo iframe để cô lập CSS
+      const iframe = document.createElement('iframe');
+      iframe.style.width = '100%';
+      iframe.style.height = '500px';
+      iframe.style.border = 'none';
+      renderedFrame.appendChild(iframe);
+      
+      // Ghi nội dung vào iframe
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write(translatedHTML);
+      iframeDoc.close();
     });
 
     // Xử lý sự kiện cho bảng tra cứu

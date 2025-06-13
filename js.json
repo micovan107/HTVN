@@ -25,6 +25,7 @@
     "thay_doi": "change",
     "gui_di": "submit",
     "tai": "load",
+    "tai_lieu": "document",
   
     "lay_id": "getElementById",
     "lay_lop": "getElementsByClassName",
@@ -76,6 +77,7 @@
     "nho_nhat": "Math.min",
   
     "chan": "preventDefault",
-    "dung_truyen": "stopPropagation"
+    "dung_truyen": "stopPropagation",
+    "viet_text": "textContent"
   }
   
