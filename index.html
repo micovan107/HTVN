@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dịch HTML Tiếng Việt sang HTML Chuẩn & Render</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+    :root {
+      --bg-color: linear-gradient(135deg, #667eea, #764ba2);
+      --text-color: #fff;
+      --secondary-text-color: #ddd;
+      --primary-color: #764ba2;
+      --primary-hover-color: #5a3885;
+      --input-bg-color: #f9f9f9;
+      --input-text-color: #222;
+      --output-bg-color: #2d2d2d;
+      --output-text-color: #f8f8f2;
+      --rendered-bg-color: white;
+      --rendered-text-color: black;
+      --lookup-bg-color: rgba(255, 255, 255, 0.1);
+      --lookup-border-color: rgba(255, 255, 255, 0.2);
+      --lookup-hover-color: rgba(255, 255, 255, 0.2);
+      --box-shadow-color: rgba(0, 0, 0, 0.2);
+      --box-shadow-strong: rgba(0, 0, 0, 0.3);
+    }
+    
+    body.dark-mode {
+      --bg-color: linear-gradient(135deg, #1a1a2e, #16213e);
+      --text-color: #eee;
+      --secondary-text-color: #aaa;
+      --primary-color: #4a69bd;
+      --primary-hover-color: #1e3799;
+      --input-bg-color: #2c3e50;
+      --input-text-color: #ecf0f1;
+      --output-bg-color: #1e272e;
+      --output-text-color: #d2dae2;
+      --rendered-bg-color: #2c3e50;
+      --rendered-text-color: #ecf0f1;
+      --lookup-bg-color: rgba(0, 0, 0, 0.3);
+      --lookup-border-color: rgba(255, 255, 255, 0.1);
+      --lookup-hover-color: rgba(0, 0, 0, 0.5);
+      --box-shadow-color: rgba(0, 0, 0, 0.4);
+      --box-shadow-strong: rgba(0, 0, 0, 0.5);
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    
+    header {
+      text-align: center;
+      padding: 30px 20px 10px;
+      max-width: 900px;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    
+    p {
+      margin-top: 0;
+      color: var(--secondary-text-color);
+    }
+    
+    main {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      max-width: 960px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    
+    textarea {
+      flex: 1;
+      min-height: 400px;
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      font-family: monospace;
+      font-size: 1rem;
+      border: none;
+      resize: vertical;
+      box-shadow: 0 4px 10px var(--box-shadow-color);
+      background: var(--input-bg-color);
+      color: var(--input-text-color);
+      line-height: 1.5;
+      transition: all 0.3s ease;
+    }
+    
+    pre#output {
+      flex: 1;
+      min-height: 400px;
+      width: 90%;
+      max-width: 960px;
+      background: var(--output-bg-color);
+      color: var(--output-text-color);
+      padding: 15px;
+      border-radius: 10px;
+      overflow: auto;
+      margin: 20px;
+      font-family: monospace;
+      line-height: 1.5;
+      transition: all 0.3s ease;
+    }
+    
+    .btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+      background: var(--primary-hover-color);
+    }
+    
+    .btn-small {
+      padding: 8px 15px;
+      font-size: 0.9rem;
+      border-radius: 20px;
+    }
+    
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      width: 90%;
+      max-width: 960px;
+      margin: 10px 0;
+    }
+    
+    #rendered {
+      background: var(--rendered-bg-color);
+      color: var(--rendered-text-color);
+      width: 90%;
+      max-width: 900px;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px var(--box-shadow-strong);
+      transition: all 0.3s ease;
+    }
+    
+    footer {
+      font-size: 0.9rem;
+      padding: 20px;
+      color: var(--secondary-text-color);
+      text-align: center;
+    }
+    
+    /* Bảng tra cứu */
+    #lookupTable {
+      width: 90%;
+      max-width: 960px;
+      max-height: 400px;
+      overflow: auto;
+      background: var(--lookup-bg-color);
+      border-radius: 10px;
+      padding: 15px;
+      margin: 20px;
+      border: 1px solid var(--lookup-border-color);
+      display: none;
+      transition: all 0.3s ease;
+    }
+    
+    .lookup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .lookup-search {
+      padding: 8px 15px;
+      border-radius: 20px;
+      border: none;
+      background: var(--input-bg-color);
+      color: var(--input-text-color);
+      width: 250px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    
+    .lookup-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    
+    .lookup-item {
+      background: var(--lookup-bg-color);
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+    
+    .lookup-item:hover {
+      background: var(--lookup-hover-color);
+    }
+    
+    .lookup-viet {
+      font-weight: bold;
+    }
+    
+    .lookup-html {
+      color: var(--secondary-text-color);
+    }
+    
+    /* Chuyển đổi chế độ sáng/tối */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .toggle-slider {
+      background-color: var(--primary-color);
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Dịch HTML Tiếng Việt sang HTML Chuẩn & Render</h1>
+    <p>Nhập mã HTML Tiếng Việt → Dịch → Xem kết quả và giao diện hiển thị trực tiếp</p>
+    <div class="theme-toggle">
+      <span>🌞</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="toggle-slider"></span>
+      </label>
+      <span>🌙</span>
+    </div>
+  </header>
+
+  <main>
+    <textarea id="inputCode" placeholder="<tieude>Trang Chủ</tieude>"></textarea>
+  </main>
+  
+  <div class="controls">
+    <button id="btnTranslate" class="btn">Dịch sang HTML chuẩn</button>
+    <button id="btnToggleLookup" class="btn btn-small">Hiện bảng tra cứu</button>
+  </div>
+  
+  <div id="lookupTable">
+    <div class="lookup-header">
+      <h3>Bảng tra cứu mã dịch</h3>
+      <input type="text" class="lookup-search" id="lookupSearch" placeholder="Tìm kiếm...">
+    </div>
+    <div class="lookup-grid" id="lookupGrid">
+      <!-- Dữ liệu sẽ được thêm vào đây bằng JavaScript -->
+    </div>
+  </div>
+  
+  <pre id="output">(Kết quả dịch sẽ hiển thị ở đây)</pre>
+
+  <div id="rendered">(Giao diện web hiện ra đây)</div>
+
+  <footer>
+    © 2025 - Dịch HTML tiếng Việt | Dữ liệu tra cứu nằm trong <code>data.json</code>
+  </footer>
+
+  <script>
+    let translationMap = {};
+    let lookupVisible = false;
+    let darkMode = false;
+
+    async function loadTranslationMap() {
+      try {
+        const response = await fetch("data.json");
+        translationMap = await response.json();
+        populateLookupTable(translationMap);
+      } catch (e) {
+        alert("Không thể tải file data.json!");
+        console.error(e);
+      }
+    }
+    
+    function populateLookupTable(data) {
+      const lookupGrid = document.getElementById("lookupGrid");
+      lookupGrid.innerHTML = "";
+      
+      // Sắp xếp các cặp khóa-giá trị theo khóa (tiếng Việt)
+      const sortedEntries = Object.entries(data).sort((a, b) => a[0].localeCompare(b[0]));
+      
+      for (const [vietTag, htmlTag] of sortedEntries) {
+        const item = document.createElement("div");
+        item.className = "lookup-item";
+        item.innerHTML = `
+          <span class="lookup-viet">&lt;${vietTag}&gt;</span>
+          <span class="lookup-html">&lt;${htmlTag}&gt;</span>
+        `;
+        
+        // Thêm sự kiện click để chèn mã vào textarea
+        item.addEventListener("click", () => {
+          const textarea = document.getElementById("inputCode");
+          const startPos = textarea.selectionStart;
+          const endPos = textarea.selectionEnd;
+          const currentValue = textarea.value;
+          const newValue = currentValue.substring(0, startPos) + 
+                          `<${vietTag}></${vietTag}>` + 
+                          currentValue.substring(endPos);
+          textarea.value = newValue;
+          // Di chuyển con trỏ vào giữa thẻ
+          const cursorPos = startPos + vietTag.length + 2;
+          textarea.setSelectionRange(cursorPos, cursorPos);
+          textarea.focus();
+        });
+        
+        lookupGrid.appendChild(item);
+      }
+    }
+    
+    function filterLookupTable(searchTerm) {
+      const lookupItems = document.querySelectorAll(".lookup-item");
+      const searchLower = searchTerm.toLowerCase();
+      
+      lookupItems.forEach(item => {
+        const vietTag = item.querySelector(".lookup-viet").textContent.toLowerCase();
+        const htmlTag = item.querySelector(".lookup-html").textContent.toLowerCase();
+        
+        if (vietTag.includes(searchLower) || htmlTag.includes(searchLower)) {
+          item.style.display = "flex";
+        } else {
+          item.style.display = "none";
+        }
+      });
+    }
+
+    function formatHTML(html) {
+      // Tự động căn chỉnh thụt lùi đầu dòng
+      let formatted = '';
+      let indent = 0;
+      const lines = html.split('\n');
+      
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].trim();
+        if (!line) continue;
+        
+        // Giảm thụt lùi cho thẻ đóng
+        if (line.match(/^<\/[^>]+>/) && indent > 0) {
+          indent--;
+        }
+        
+        // Thêm thụt lùi vào dòng hiện tại
+        formatted += '  '.repeat(indent) + line + '\n';
+        
+        // Tăng thụt lùi cho thẻ mở (không phải thẻ tự đóng)
+        if (line.match(/^<[^/][^>]*>/) && !line.match(/\/>$/) && !line.match(/<(img|br|hr|input|meta|link)[^>]*>$/i)) {
+          indent++;
+        }
+      }
+      
+      return formatted;
+    }
+    
+    function autoCloseTag(input) {
+      // Tự động đóng thẻ
+      const openTags = [];
+      let result = input;
+      
+      // Tìm tất cả các thẻ mở
+      const openTagRegex = /<([a-zA-Z0-9_-]+)(\s[^>]*)?>/g;
+      let match;
+      
+      while ((match = openTagRegex.exec(input)) !== null) {
+        const tagName = match[1];
+        const selfClosing = ['img', 'br', 'hr', 'input', 'meta', 'link'].includes(tagName.toLowerCase());
+        
+        if (!selfClosing) {
+          openTags.push(tagName);
+        }
+      }
+      
+      // Thêm thẻ đóng cho các thẻ chưa được đóng (theo thứ tự ngược lại)
+      for (let i = openTags.length - 1; i >= 0; i--) {
+        const tagName = openTags[i];
+        const htmlTagName = translationMap[tagName] || tagName; // Lấy tên thẻ HTML tương ứng nếu có
+        
+        // Kiểm tra cả thẻ tiếng Việt và thẻ HTML tương ứng
+        const hasClosingTag = result.includes(`</${tagName}>`) || 
+                             result.includes(`</${tagName.toLowerCase()}>`) ||
+                             result.includes(`</${htmlTagName}>`) || 
+                             result.includes(`</${htmlTagName.toLowerCase()}>`);
+        
+        if (!hasClosingTag) {
+          result += `\n</${tagName}>`;
+        }
+      }
+      
+      return result;
+    }
+    
+    function translateHTML() {
+      if (Object.keys(translationMap).length === 0) {
+        alert("Bảng dịch chưa được tải.");
+        return;
+      }
+
+      let input = document.getElementById("inputCode").value;
+      
+      // Thêm sự kiện tự động đóng thẻ khi nhấn Enter
+      document.getElementById("inputCode").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+          const cursorPos = this.selectionStart;
+          const textBeforeCursor = this.value.substring(0, cursorPos);
+          const lastOpenTagMatch = textBeforeCursor.match(/<([a-zA-Z0-9_-]+)(?:\s[^>]*)?>[^<]*$/i);
+          
+          if (lastOpenTagMatch && !['img', 'br', 'hr', 'input', 'meta', 'link'].includes(lastOpenTagMatch[1].toLowerCase())) {
+            const tagName = lastOpenTagMatch[1];
+            const currentValue = this.value;
+            const newValue = currentValue.substring(0, cursorPos) + "\n" + 
+                            "  " + currentValue.substring(cursorPos, currentValue.length) + 
+                            "\n" + `</${tagName}>`;
+            
+            this.value = newValue;
+            this.setSelectionRange(cursorPos + 3, cursorPos + 3);
+            e.preventDefault();
+          }
+        }
+      });
+
+      // Tự động đóng thẻ
+      input = autoCloseTag(input);
+
+      // Dịch DOCTYPE
+      input = input.replace(/<!phan_cu_the\s+html>/gi, "<!DOCTYPE html>");
+
+      // Dịch thẻ mở và đóng
+      for (const [vietTag, htmlTag] of Object.entries(translationMap)) {
+        if (vietTag === "phan_cu_the") continue;
+
+        const openTag = new RegExp(`<${vietTag}(\\s[^>]*)?>`,"gi");
+        input = input.replace(openTag, `<${htmlTag}$1>`);
+
+        const closeTag = new RegExp(`</${vietTag}>`, "gi");
+        input = input.replace(closeTag, `</${htmlTag}>`);
+      }
+
+      // Dịch class="..."
+      input = input.replace(/class="([^"]+)"/gi, (match, value) => {
+        const translated = value
+          .split(/\s+/)
+          .map(word => translationMap[word] || word)
+          .join(" ");
+        return `class="${translated}"`;
+      });
+      
+      // Định dạng HTML với thụt lùi đầu dòng
+      const formattedHTML = formatHTML(input);
+
+      document.getElementById("output").innerText = formattedHTML;
+      document.getElementById("rendered").innerHTML = input;
+    }
+    
+    function toggleLookupTable() {
+      const lookupTable = document.getElementById("lookupTable");
+      const btnToggleLookup = document.getElementById("btnToggleLookup");
+      
+      lookupVisible = !lookupVisible;
+      
+      if (lookupVisible) {
+        lookupTable.style.display = "block";
+        btnToggleLookup.textContent = "Ẩn bảng tra cứu";
+      } else {
+        lookupTable.style.display = "none";
+        btnToggleLookup.textContent = "Hiện bảng tra cứu";
+      }
+    }
+    
+    function toggleDarkMode() {
+      darkMode = !darkMode;
+      document.body.classList.toggle("dark-mode", darkMode);
+      
+      // Lưu trạng thái chế độ vào localStorage
+      localStorage.setItem("darkMode", darkMode);
+    }
+    
+    function initApp() {
+      // Tải bảng dịch
+      loadTranslationMap();
+      
+      // Khởi tạo sự kiện cho các nút
+      document.getElementById("btnTranslate").addEventListener("click", translateHTML);
+      document.getElementById("btnToggleLookup").addEventListener("click", toggleLookupTable);
+      document.getElementById("themeToggle").addEventListener("change", toggleDarkMode);
+      
+      // Khởi tạo sự kiện tìm kiếm
+      document.getElementById("lookupSearch").addEventListener("input", (e) => {
+        filterLookupTable(e.target.value);
+      });
+      
+      // Thêm sự kiện tự động đóng thẻ khi nhập
+      document.getElementById("inputCode").addEventListener("input", function(e) {
+        // Kiểm tra nếu người dùng vừa nhập dấu >
+        if (e.inputType === "insertText" && e.data === ">") {
+          const cursorPos = this.selectionStart;
+          const textBeforeCursor = this.value.substring(0, cursorPos);
+          const lastOpenTagMatch = textBeforeCursor.match(/<([a-zA-Z0-9_-]+)(?:\s[^>]*)?>[^<]*$/i);
+          
+          if (lastOpenTagMatch && !['img', 'br', 'hr', 'input', 'meta', 'link'].includes(lastOpenTagMatch[1].toLowerCase())) {
+            const tagName = lastOpenTagMatch[1];
+            const currentValue = this.value;
+            const newValue = currentValue.substring(0, cursorPos) + 
+                            `</${tagName}>` + 
+                            currentValue.substring(cursorPos);
+            
+            this.value = newValue;
+            this.setSelectionRange(cursorPos, cursorPos);
+          }
+        }
+      });
+      
+      // Khôi phục chế độ sáng/tối từ localStorage
+      const savedDarkMode = localStorage.getItem("darkMode") === "true";
+      if (savedDarkMode) {
+        darkMode = true;
+        document.body.classList.add("dark-mode");
+        document.getElementById("themeToggle").checked = true;
+      }
+    }
+
+    window.onload = initApp;
+  </script>
+
+</body>
+</html>
