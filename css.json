@@ -1,0 +1,23 @@
+{
+    "nen": "background",
+    "phong_chu": "font-family",
+    "do_rong": "width",
+    "do_cao": "height",
+    "mau_chu": "color",
+    "vien": "border",
+    "do_day_bo": "padding",
+    "do_day_goc": "border-radius",
+    "canh_giua": "text-align",
+    "do_bong": "box-shadow",
+    "con_tro": "cursor",
+    "chi_tay": "pointer",
+    "do_dam": "darkred",
+    "xam_nhat": "#f0f0f0",
+    "trang": "#ffffff",
+    "den": "#000000",
+    "do": "red",
+    "tu_dong": "auto",
+    "khong": "none",
+    "than": "body"
+  }
+  
