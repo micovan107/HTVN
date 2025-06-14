@@ -456,6 +456,10 @@
         
         const closeRegex = new RegExp(`<\\s*\\/\\s*${vietKey}\\b`, 'gi');
         translatedHTML = translatedHTML.replace(closeRegex, `</${engValue}`);
+        
+        // Dịch các thuộc tính của thẻ HTML
+        const attrRegex = new RegExp(`\\s${vietKey}\\s*=\\s*`, 'gi');
+        translatedHTML = translatedHTML.replace(attrRegex, ` ${engValue}=`);
       }
       
       // Dịch các thuộc tính CSS
