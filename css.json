@@ -22,7 +22,7 @@
     "kieu_vien": "border-style",
     "mau_vien": "border-color",
     "co_chu": "font-size",
-    "dam": "font-weight",
+    "net_chu": "font-weight",
     "nghieng": "font-style",
     "kieu_chu": "text-transform",
     "khoang_cach_chu": "letter-spacing",
@@ -172,13 +172,16 @@
     "mau_duong": "#0000ff",
     "mau_vang": "#ffff00",
     "mau_hong": "#ff00ff",
+    "mau_tim": "purple",
     "an": "hidden",
     "hien": "visible",
     "khong_lap": "no-repeat",
     "lap": "repeat",
     "trung_tam": "center",
     "linh_hoat": "flex",
-    "chu_thuong": "lowercase"
+    "chu_thuong": "lowercase",
+    "vung_chac": "solid",
+    "in_dam": "bold"
     
 
 
