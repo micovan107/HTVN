@@ -466,8 +466,13 @@
         // Dịch các giá trị CSS
         for (const [vietKey, engValue] of Object.entries(cssData.gia_tri_css)) {
           if (typeof engValue === 'string' && !engValue.includes('-')) {
+            // Dịch giá trị CSS khi nó đứng sau dấu hai chấm
             const valueRegex = new RegExp(`:\\s*${vietKey}\\b`, 'gi');
             translatedHTML = translatedHTML.replace(valueRegex, `: ${engValue}`);
+            
+            // Dịch giá trị CSS khi nó đứng sau một giá trị khác (ví dụ: 0.5s de)
+            const valueAfterRegex = new RegExp(`\\s${vietKey}\\b`, 'gi');
+            translatedHTML = translatedHTML.replace(valueAfterRegex, ` ${engValue}`);
           }
         }
       } else {
