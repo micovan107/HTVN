@@ -4,7 +4,7 @@
     "phong_chu": "font-family",
     "do_rong": "width",
     "do_cao": "height",
-    "mau_nen": "background-color",
+    
     
     "vien": "border",
     "do_day_bo": "padding",
@@ -24,7 +24,7 @@
     "co_chu": "font-size",
     "dam": "font-weight",
     "nghieng": "font-style",
-    "chu_hoa": "text-transform",
+    "kieu_chu": "text-transform",
     "khoang_cach_chu": "letter-spacing",
     "khoang_cach_dong": "line-height",
     "gach_chan": "text-decoration",
@@ -176,7 +176,11 @@
     "hien": "visible",
     "khong_lap": "no-repeat",
     "lap": "repeat",
-    "trung_tam": "center" 
+    "trung_tam": "center",
+    "linh_hoat": "flex",
+    "chu_thuong": "lowercase"
+    
+
 
     
   }

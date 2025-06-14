@@ -5,7 +5,7 @@
     "dau_meta": "meta",
     "dau_link": "link",
     "dau_script": "script",
-    "loai_tai_lieu": "doctype",
+    "loai_tai_lieu": "!DOCTYPE",
     "tieu_de_chinh": "h1",
     "tieu_de_phu": "h2",
     "tieu_de_3": "h3",
@@ -68,6 +68,7 @@
     "danh_sach_anh": "figure",
     "chu_thich_anh": "figcaption",
     "the": "title",
+    "lop": "class",
     
     "mau_bieu_mau": "fieldset",
     "bieu_tuong_nguoi_dung": "avatar",
@@ -141,5 +142,10 @@
     "ban_phim": "kbd",
     "mau": "samp",
     "bien": "var",
-    "bo_ki_tu": "charset"
+    "bo_ki_tu": "charset",
+    "thay_the": "alt",
+    "giu_cho": "placeholder",
+    "vo_hieu_hoa": "disabled",
+    "chi_doc": "readonly"
+    
 }

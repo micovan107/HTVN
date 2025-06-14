@@ -17,6 +17,9 @@
     "khong_xac_dinh": "undefined",
     "null_gia_tri": "null",
     "doi_tuong": "Object",
+    "thong_bao": "alert",
+    "nhap_chuot": "onclick",
+
   
     "su_kien": "event",
     "lang_nghe": "addEventListener",
@@ -42,7 +45,7 @@
     "lop_danh_sach": "classList",
     "them": "add",
   
-    "ghi_log": "console.log",
+    "ghi_nhat_ki": "console.log",
     "canh_bao": "console.warn",
     "loi": "console.error",
   
