@@ -36,7 +36,8 @@
       "can_giua_doc": "justify-content",
       "can_giua_ngang": "align-items",
       "than": "body",
-      "chuyen_dong": " transition"
+      "chuyen_dong": " transition",
+      "src": "nguon_anh"
     },
     "gia_tri_css": {
       "chi_tay": "pointer",

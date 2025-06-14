@@ -339,6 +339,12 @@
       
       // Dịch các thuộc tính CSS
       if (cssData.thuoc_tinh_css) {
+        // Dịch các selector CSS
+        for (const [vietKey, engValue] of Object.entries(cssData.thuoc_tinh_css)) {
+          const selectorRegex = new RegExp(`\\b${vietKey}\\s*\{`, 'gi');
+          translatedHTML = translatedHTML.replace(selectorRegex, `${engValue} {`);
+        }
+        
         // Dịch các thuộc tính CSS
         for (const [vietKey, engValue] of Object.entries(cssData.thuoc_tinh_css)) {
           const styleRegex = new RegExp(`${vietKey}\\s*:`, 'gi');
@@ -355,6 +361,11 @@
       } else {
         // Xử lý trường hợp cấu trúc cũ (nếu có)
         for (const [vietKey, engValue] of Object.entries(cssData)) {
+          // Dịch selector CSS
+          const selectorRegex = new RegExp(`\\b${vietKey}\\s*\{`, 'gi');
+          translatedHTML = translatedHTML.replace(selectorRegex, `${engValue} {`);
+          
+          // Dịch thuộc tính CSS
           const styleRegex = new RegExp(`${vietKey}\\s*:`, 'gi');
           translatedHTML = translatedHTML.replace(styleRegex, `${engValue}:`);
           
