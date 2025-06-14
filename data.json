@@ -140,5 +140,6 @@
     "dinh_nghia": "dfn",
     "ban_phim": "kbd",
     "mau": "samp",
-    "bien": "var"
+    "bien": "var",
+    "bo_ki_tu": "charset"
 }

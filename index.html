@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" spellcheck="false">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dịch HTML Tiếng Việt sang HTML Chuẩn & Render</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
     
@@ -107,16 +108,22 @@
       background: var(--bg-primary-dark);
       color: #f8f8f2;
       margin: 0;
+      padding: 0;
     }
     
-    body.light-mode textarea {
-      background: var(--bg-secondary-light);
-      color: var(--text-color-light);
+    pre#output code {
+      width: 100%;
+      min-height: 400px;
+      padding: 15px;
+      border-radius: 10px;
+      font-family: monospace;
+      font-size: 1rem;
+      display: block;
+      overflow: auto;
     }
     
     body.light-mode pre#output {
       background: var(--bg-secondary-dark);
-      color: #f8f8f2;
     }
     .toolbar {
       display: flex;
@@ -331,7 +338,7 @@
     }
   </style>
 </head>
-<body>
+<body spellcheck="false">
 
   <header>
     <h1>Dịch HTML Tiếng Việt sang HTML Chuẩn & Render</h1>
@@ -387,7 +394,7 @@
         <button title="Sao chép" id="btnCopyOutput"><i class="fas fa-copy"></i></button>
         <button title="Tải về" id="btnDownloadOutput"><i class="fas fa-download"></i></button>
       </div>
-      <pre id="output">Mã HTML chuẩn sẽ hiển thị ở đây...</pre>
+      <pre id="output"><code class="language-html">Mã HTML chuẩn sẽ hiển thị ở đây...</code></pre>
     </div>
     
     <div id="rendered">
@@ -401,6 +408,8 @@
   
   <div id="toast" class="toast-notification">Mã nguồn đã được định dạng!</div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/xml.min.js"></script>
   <script>
     // Tải các file JSON
     let cssData = {};
@@ -559,8 +568,12 @@
       // Áp dụng tự động thụt lùi đầu dòng cho mã đã dịch
       const formattedHTML = autoIndentCode(translatedHTML);
       
-      // Hiển thị mã HTML đã dịch và định dạng
-      document.getElementById('output').textContent = formattedHTML;
+      // Hiển thị mã HTML đã dịch và định dạng với highlight.js
+      const outputElement = document.getElementById('output').querySelector('code');
+      outputElement.textContent = formattedHTML;
+      
+      // Áp dụng highlight.js để tô màu cú pháp
+      hljs.highlightElement(outputElement);
       
       // Hiển thị kết quả trong iframe để cô lập CSS
       const renderedFrame = document.getElementById('rendered');
@@ -658,7 +671,7 @@
       
       // Kiểm tra nếu nội dung đã bị xóa hoàn toàn
       if (value.trim() === '') {
-        document.getElementById('output').textContent = 'Mã HTML chuẩn sẽ hiển thị ở đây...';
+        document.getElementById('output').querySelector('code').textContent = 'Mã HTML chuẩn sẽ hiển thị ở đây...';
         document.getElementById('rendered').innerHTML = '<p>Kết quả hiển thị sẽ xuất hiện ở đây...</p>';
       }
       
@@ -823,14 +836,14 @@
     });
 
     document.getElementById('btnCopyOutput').addEventListener('click', function() {
-      const output = document.getElementById('output').textContent;
+      const output = document.getElementById('output').querySelector('code').textContent;
       navigator.clipboard.writeText(output);
       showToast('Đã sao chép mã nguồn!');
     });
 
     document.getElementById('btnClearInput').addEventListener('click', function() {
       document.getElementById('input').value = '';
-      document.getElementById('output').textContent = 'Mã HTML chuẩn sẽ hiển thị ở đây...';
+      document.getElementById('output').querySelector('code').textContent = 'Mã HTML chuẩn sẽ hiển thị ở đây...';
       document.getElementById('rendered').innerHTML = '<p>Kết quả hiển thị sẽ xuất hiện ở đây...</p>';
       showToast('Đã xóa tất cả nội dung!');
     });
@@ -848,7 +861,7 @@
     });
 
     document.getElementById('btnDownloadOutput').addEventListener('click', function() {
-      const content = document.getElementById('output').textContent;
+      const content = document.getElementById('output').querySelector('code').textContent;
       downloadFile(content, 'html-chuan.html');
     });
 
