@@ -4,7 +4,7 @@
       "phong_chu": "font-family",
       "do_rong": "width",
       "do_cao": "height",
-      "mau_chu": "color",
+      
       "vien": "border",
       "do_day_bo": "padding",
       "do_day_goc": "border-radius",
@@ -114,12 +114,13 @@
     "nguoc_chieu_van_ban": "bdi",
     "huong_van_ban": "bdo",
     "gach_bo": "s",
+    "mau": "color",
     
     "xoa_bo": "del",
     "chen_vao": "ins",
     "dinh_nghia": "dfn",
     "ban_phim": "kbd",
-    "mau": "samp",
+    "vi_du": "samp",
     "bien": "var",
     "mau_bieu_mau": "fieldset",
     "bieu_tuong_nguoi_dung": "avatar",
@@ -143,7 +144,15 @@
     "phan_tu_wbr": "wbr",
     "phan_tu_canvas": "canvas",
     "phan_tu_audio": "audio",
-    "phan_tu_video": "video"
+    "phan_tu_video": "video",
+    "che_do_hien_thi": "visibility",
+    "co_the_truot": "overflow",
+    "che_do_can": "justify-content",
+    "dinh_kem": "position: fixed",
+    "vi_tri_tuong_doi": "position: relative"
+    
+    
+
     },
     "gia_tri_css": {
       "chi_tay": "pointer",
@@ -161,7 +170,13 @@
       "mau_xanh": "#00ff00",
       "mau_duong": "#0000ff",
       "mau_vang": "#ffff00",
-      "mau_hong": "#ff00ff"
+      "mau_hong": "#ff00ff",
+      "an": "hidden",
+      "hien": "visible",
+      "khong_lap": "no-repeat",
+      "lap": "repeat",
+      "trung_tam": "center" 
+
       
     }
   }
