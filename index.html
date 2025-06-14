@@ -4,18 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dịch HTML Tiếng Việt sang HTML Chuẩn & Render</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+    
+    :root {
+      --bg-gradient-light: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      --bg-gradient-dark: linear-gradient(135deg, #667eea, #764ba2);
+      --text-color-light: #333;
+      --text-color-dark: #fff;
+      --text-secondary-light: #666;
+      --text-secondary-dark: #ddd;
+      --bg-primary-light: #fff;
+      --bg-primary-dark: #2d2d2d;
+      --bg-secondary-light: #f9f9f9;
+      --bg-secondary-dark: #1e1e1e;
+      --accent-light: #4a6cf7;
+      --accent-dark: #764ba2;
+      --accent-hover-light: #3a5ce5;
+      --accent-hover-dark: #5a3885;
+      --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.1);
+      --shadow-dark: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    
     body {
       font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: #fff;
+      background: var(--bg-gradient-dark);
+      color: var(--text-color-dark);
       display: flex;
       flex-direction: column;
       align-items: center;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    
+    body.light-mode {
+      background: var(--bg-gradient-light);
+      color: var(--text-color-light);
     }
     header {
       text-align: center;
@@ -27,9 +54,14 @@
       font-size: 2.5rem;
       margin-bottom: 10px;
     }
+    
     p {
       margin-top: 0;
-      color: #ddd;
+      color: var(--text-secondary-dark);
+    }
+    
+    body.light-mode p {
+      color: var(--text-secondary-light);
     }
     main {
       display: flex;
@@ -39,17 +71,20 @@
       max-width: 960px;
       width: 100%;
     }
+    
     .editor-container {
       display: flex;
       gap: 20px;
       width: 100%;
       flex-wrap: wrap;
     }
+    
     .code-container {
       flex: 1;
       min-width: 300px;
       position: relative;
     }
+    
     textarea, pre#output {
       width: 100%;
       min-height: 400px;
@@ -59,17 +94,29 @@
       font-size: 1rem;
       border: none;
       resize: vertical;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--shadow-dark);
       overflow: auto;
     }
+    
     textarea {
-      background: #f9f9f9;
-      color: #222;
+      background: var(--bg-secondary-dark);
+      color: var(--text-color-dark);
     }
+    
     pre#output {
-      background: #2d2d2d;
+      background: var(--bg-primary-dark);
       color: #f8f8f2;
       margin: 0;
+    }
+    
+    body.light-mode textarea {
+      background: var(--bg-secondary-light);
+      color: var(--text-color-light);
+    }
+    
+    body.light-mode pre#output {
+      background: var(--bg-secondary-dark);
+      color: #f8f8f2;
     }
     .toolbar {
       display: flex;
@@ -77,8 +124,9 @@
       margin-bottom: 5px;
       justify-content: flex-end;
     }
+    
     .toolbar button {
-      background: #5a3885;
+      background: var(--accent-dark);
       color: white;
       border: none;
       width: 36px;
@@ -90,8 +138,17 @@
       justify-content: center;
       font-size: 0.9rem;
     }
+    
     .toolbar button:hover {
-      background: #764ba2;
+      background: var(--accent-hover-dark);
+    }
+    
+    body.light-mode .toolbar button {
+      background: var(--accent-light);
+    }
+    
+    body.light-mode .toolbar button:hover {
+      background: var(--accent-hover-light);
     }
     .controls {
       display: flex;
@@ -100,8 +157,9 @@
       margin: 20px 0;
       flex-wrap: wrap;
     }
+    
     #btnTranslate {
-      background: #764ba2;
+      background: var(--accent-dark);
       color: white;
       border: none;
       padding: 12px 30px;
@@ -112,11 +170,21 @@
       align-items: center;
       gap: 8px;
     }
+    
     #btnTranslate:hover {
-      background: #5a3885;
+      background: var(--accent-hover-dark);
     }
-    #btnToggleReference {
-      background: #5a3885;
+    
+    body.light-mode #btnTranslate {
+      background: var(--accent-light);
+    }
+    
+    body.light-mode #btnTranslate:hover {
+      background: var(--accent-hover-light);
+    }
+    
+    #btnToggleReference, #btnToggleTheme {
+      background: var(--accent-hover-dark);
       color: white;
       border: none;
       padding: 12px 20px;
@@ -127,38 +195,60 @@
       align-items: center;
       gap: 8px;
     }
-    #btnToggleReference:hover {
+    
+    #btnToggleReference:hover, #btnToggleTheme:hover {
       background: #4a2d70;
     }
+    
+    body.light-mode #btnToggleReference, body.light-mode #btnToggleTheme {
+      background: var(--accent-hover-light);
+    }
+    
+    body.light-mode #btnToggleReference:hover, body.light-mode #btnToggleTheme:hover {
+      background: #2a4cd5;
+    }
     #rendered {
-      background: white;
-      color: black;
+      background: var(--bg-primary-light);
+      color: var(--text-color-light);
       width: 100%;
       padding: 20px;
       margin: 20px 0;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      box-shadow: var(--shadow-dark);
       overflow: auto;
       max-height: 500px;
     }
+    
+    body.light-mode #rendered {
+      box-shadow: var(--shadow-light);
+    }
+    
     footer {
       font-size: 0.9rem;
       padding: 20px;
-      color: #ddd;
+      color: var(--text-secondary-dark);
       text-align: center;
       margin-top: 20px;
     }
+    
+    body.light-mode footer {
+      color: var(--text-secondary-light);
+    }
     .reference-panel {
       background: rgba(255, 255, 255, 0.95);
-      color: #333;
+      color: var(--text-color-light);
       border-radius: 12px;
       padding: 20px;
       margin: 20px 0;
       width: 100%;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      box-shadow: var(--shadow-dark);
       max-height: 400px;
       overflow: hidden;
       display: none;
+    }
+    
+    body.light-mode .reference-panel {
+      box-shadow: var(--shadow-light);
     }
     .reference-tabs {
       display: flex;
@@ -173,8 +263,12 @@
       font-weight: bold;
     }
     .reference-tab.active {
-      background: #764ba2;
+      background: var(--accent-dark);
       color: white;
+    }
+    
+    body.light-mode .reference-tab.active {
+      background: var(--accent-light);
     }
     .reference-content {
       max-height: 300px;
@@ -227,6 +321,14 @@
     .toast-notification.show {
       opacity: 1;
     }
+    
+    .theme-toggle-icon {
+      transition: transform 0.3s ease;
+    }
+    
+    body.light-mode .theme-toggle-icon {
+      transform: rotate(180deg);
+    }
   </style>
 </head>
 <body>
@@ -253,6 +355,7 @@
     <div class="controls">
       <button id="btnTranslate"><i class="fas fa-language"></i> Dịch & Hiển thị</button>
       <button id="btnToggleReference"><i class="fas fa-book"></i> Bảng tra cứu</button>
+      <button id="btnToggleTheme"><i class="fas fa-moon theme-toggle-icon"></i> Chế độ sáng/tối</button>
     </div>
     
     <div id="reference-panel" class="reference-panel">
@@ -304,6 +407,15 @@
     let jsData = {};
     let htmlData = {};
     let currentReferenceTab = 'html';
+    
+    // Kiểm tra chế độ sáng/tối từ localStorage
+    function loadThemePreference() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        document.getElementById('btnToggleTheme').innerHTML = '<i class="fas fa-sun theme-toggle-icon"></i> Chế độ sáng/tối';
+      }
+    }
 
     // Hàm tải dữ liệu từ file JSON
     async function loadJsonData() {
@@ -472,6 +584,22 @@
         referencePanel.style.display = 'block';
         updateReferenceTable();
       }
+    });
+    
+    // Xử lý sự kiện cho nút chuyển đổi chế độ sáng/tối
+    document.getElementById('btnToggleTheme').addEventListener('click', function() {
+      document.body.classList.toggle('light-mode');
+      
+      // Lưu trạng thái chế độ vào localStorage
+      if (document.body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
+        this.innerHTML = '<i class="fas fa-sun theme-toggle-icon"></i> Chế độ sáng/tối';
+      } else {
+        localStorage.setItem('theme', 'dark');
+        this.innerHTML = '<i class="fas fa-moon theme-toggle-icon"></i> Chế độ sáng/tối';
+      }
+      
+      showToast('Đã chuyển đổi chế độ hiển thị!');
     });
 
     // Xử lý sự kiện cho các tab tra cứu
@@ -686,11 +814,13 @@
       const input = document.getElementById('input');
       input.select();
       document.execCommand('copy');
+      showToast('Đã sao chép mã nguồn!');
     });
 
     document.getElementById('btnCopyOutput').addEventListener('click', function() {
       const output = document.getElementById('output').textContent;
       navigator.clipboard.writeText(output);
+      showToast('Đã sao chép mã nguồn!');
     });
 
     document.getElementById('btnClearInput').addEventListener('click', function() {
@@ -744,7 +874,10 @@
     }
 
     // Tải dữ liệu khi trang được tải
-    window.addEventListener('load', loadJsonData);
+    window.addEventListener('load', function() {
+      loadJsonData();
+      loadThemePreference();
+    });
   </script>
 </body>
 </html>
