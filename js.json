@@ -19,6 +19,7 @@
     "doi_tuong": "Object",
     "thong_bao": "alert",
     "nhap_chuot": "onclick",
+    "chuyen_doi": "toggle",
 
   
     "su_kien": "event",
