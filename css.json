@@ -151,6 +151,10 @@
   "che_do_can": "justify-content",
   "dinh_kem": "position: fixed",
   "vi_tri_tuong_doi": "position: relative",
+  "bien_doi": "transform",
+  "re_chuot": "hover",
+  "an_chuot": "active",
+
   
   "can_chinh": "flex-direction"
   
@@ -182,7 +186,8 @@
     "linh_hoat": "flex",
     "chu_thuong": "lowercase",
     "vung_chac": "solid",
-    "in_dam": "bold"
+    "in_dam": "bold",
+    "ti_le": "scale"
     
 
 
