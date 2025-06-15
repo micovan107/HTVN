@@ -150,10 +150,11 @@
   "co_the_truot": "overflow",
   "che_do_can": "justify-content",
   "dinh_kem": "position: fixed",
-  "vi_tri_tuong_doi": "position: relative"
+  "vi_tri_tuong_doi": "position: relative",
+  
+  "can_chinh": "flex-direction"
   
   
-
   },
   "gia_tri_css": {
     "chi_tay": "pointer",

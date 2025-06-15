@@ -57,6 +57,8 @@
     "khac": "!==",
     "va": "&&",
     "hoac": "||",
+    "trong": "in",
+    "cho": "for",
   
     "chuyen_chuoi": "toString",
     "chuyen_so": "parseInt",
