@@ -154,7 +154,7 @@
   "vi_tri_tuong_doi": "position: relative",
   "bien_doi": "transform",
   "re_chuot": "hover",
-  "an_chuot": "active",
+  "nhap_chuot": "active",
 
   
   "can_chinh": "flex-direction"
