@@ -20,6 +20,8 @@
     "thong_bao": "alert",
     "nhap_chuot": "onclick",
     "chuyen_doi": "toggle",
+    "hien_thi": "display",
+    "khoi": "block",
 
   
     "su_kien": "event",
