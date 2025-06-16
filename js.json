@@ -48,6 +48,9 @@
     "xoa_thuoc_tinh": "removeAttribute",
     "lop_danh_sach": "classList",
     "them": "add",
+    "ben_trai": "left",
+    "ben_phai": "right",
+    "ben_tren": "top",
   
     "ghi_nhat_ki": "console.log",
     "canh_bao": "console.warn",
