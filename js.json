@@ -32,6 +32,7 @@
     "gui_di": "submit",
     "tai": "load",
     "tai_lieu": "document",
+    "mau_nen": "backgroundColor",
   
     "lay_id": "getElementById",
     "lay_lop": "getElementsByClassName",
