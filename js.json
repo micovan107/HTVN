@@ -8,7 +8,7 @@
     "dung": "true",
     "sai": "false",
     "bien": "var",
-    "let_bien": "let",
+    "gan": "let",
     "hang_so": "const",
     "mang": "Array",
     "chuoi": "String",
