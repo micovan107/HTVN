@@ -54,6 +54,7 @@
     "nguon_video": "source",
     "dau_hinh": "picture",
     "nguon_anh": "source",
+    "nguon": "src",
     "bieu_tuong": "svg",
     "chuc_nang": "nav",
     "phan_boi_cuc": "aside",
