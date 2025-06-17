@@ -7,6 +7,7 @@
     "mau_nen": "background-color",
     "mau_sac": "rgba",
     "kieu_dau_dau_dong_ds": "list-style-type",
+    "chieu_rong_thanh_cuon": "scrollbar-width",
     
     "vien": "border",
     "do_day_bo": "padding",
