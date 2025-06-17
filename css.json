@@ -5,6 +5,7 @@
     "do_rong": "width",
     "do_cao": "height",
     "mau_nen": "background-color",
+    "mau_sac": "rgba",
     
     
     "vien": "border",
