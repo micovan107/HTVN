@@ -69,7 +69,8 @@
     "chu_thich_anh": "figcaption",
     "the": "title",
     "lop": "class",
-    
+    "cho_phep": "allow",
+    "cho_phep_toan_man_hinh": "allowfullscreen",    
     "mau_bieu_mau": "fieldset",
     "bieu_tuong_nguoi_dung": "avatar",
     "khung_thong_bao": "dialog",
