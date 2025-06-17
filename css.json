@@ -189,7 +189,12 @@
     "chu_thuong": "lowercase",
     "vung_chac": "solid",
     "in_dam": "bold",
-    "ti_le": "scale"
+    "ti_le": "scale",
+    "dau_tron_dac": "disc",
+    "dau_tron_rong": "circle",
+    "dau_hinh_vuong": "square",
+    "danh_so": "decimal",
+    "danh_so_la_ma": "upper-roman"
     
 
 
